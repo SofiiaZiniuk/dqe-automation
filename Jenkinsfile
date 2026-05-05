@@ -22,8 +22,8 @@ pipeline {
             steps {
                 sh '''
                     . venv/bin/activate
-                    pip install --upgrade pip
-                    python3 -m pip install -r requirements.txt
+                    venv/bin/python -m pip install --upgrade pip
+                    venv/bin/python -m pip install -r requirements.txt
                 '''
             }
         }
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 sh '''
                     . venv/bin/activate
-                    python3 -m pytest tests -m parquet_data \
+                    venv/bin/python -m pytest tests -m parquet_data \
                         --db_host=postgres \
                         --db_port=5432 \
                         --db_name=mydatabase \
