@@ -45,8 +45,7 @@ pipeline {
                 export DB_PORT=5432
                 export DB_NAME=mydatabase
 
-                cd "PyTest DQ Framework"
-                venv/bin/python -m pytest tests -m parquet_data \
+                venv/bin/python -m pytest PyTest DQ Framework/tests -m parquet_data \
                     --html=html_report/report.html
             '''
         }
