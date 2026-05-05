@@ -1,4 +1,5 @@
 import pytest
+import os
 from src.connectors.postgres.postgres_connector import PostgresConnectorContextManager
 
 
@@ -11,26 +12,19 @@ def pytest_addoption(parser):
 
 
 def pytest_configure(config):
-    required = ["db_user", "db_password"]
+    required_envs = ["DB_USER", "DB_PASSWORD"]
 
-    for opt in required:
-        if not config.getoption(f"--{opt}"):
-            pytest.fail(f"Missing required option: {opt}")
+    for env in required_envs:
+        if not os.getenv(env):
+            pytest.fail(f"Missing required env var: {env}")
 
-
-@pytest.fixture(scope="session")
-def db_connection(request):
-    host = request.config.getoption("--db_host")
-    port = request.config.getoption("--db_port")
-    name = request.config.getoption("--db_name")
-    user = request.config.getoption("--db_user")
-    password = request.config.getoption("--db_password")
-
+@pytest.fixture(scope='session')
+def db_connection():
     with PostgresConnectorContextManager(
-        db_host=host,
-        db_port=port,
-        db_name=name,
-        db_user=user,
-        db_password=password
+        db_host=os.getenv("DB_HOST"),
+        db_port=os.getenv("DB_PORT"),
+        db_name=os.getenv("DB_NAME"),
+        db_user=os.getenv("DB_USER"),
+        db_password=os.getenv("DB_PASSWORD")
     ) as db:
         yield db
