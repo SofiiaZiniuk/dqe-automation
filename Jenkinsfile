@@ -31,17 +31,26 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh '''
-                    venv/bin/python -m pytest tests -m parquet_data \
-                        --db_host=postgres \
-                        --db_port=5432 \
-                        --db_name=mydatabase \
-                        --db_user=$POSTGRES_SECRET_USR \
-                        --db_password=$POSTGRES_SECRET_PSW \
-                        --html=html_report/report.html
-                '''
-            }
+                withCredentials([
+                usernamePassword(
+                credentialsId: 'postgres-creds',
+                usernameVariable: 'DB_USER',
+                passwordVariable: 'DB_PASSWORD'
+            )
+        ]) {
+            sh '''
+                . venv/bin/activate
+
+                export DB_HOST=postgres
+                export DB_PORT=5432
+                export DB_NAME=mydatabase
+
+                venv/bin/python -m pytest tests -m parquet_data \
+                    --html=html_report/report.html
+            '''
         }
+    }
+}
 
         stage('Archive Test Report') {
             steps {
