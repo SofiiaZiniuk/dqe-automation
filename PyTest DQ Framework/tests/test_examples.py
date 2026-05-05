@@ -1,4 +1,5 @@
 import pytest
+import os
 
 
 @pytest.fixture(scope='module')
@@ -8,10 +9,11 @@ def source_data(db_connection):
     """
     return db_connection.get_data_sql(source_query)
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__)) 
 
 @pytest.fixture(scope='module')
 def target_data(parquet_reader):
-    target_path = 'parquet_data'
+    target_path = os.path.join(BASE_DIR, "parquet_data")
     target_data = parquet_reader.read_parquet(target_path)
     return target_data
 
