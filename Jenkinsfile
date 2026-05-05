@@ -21,8 +21,8 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                    . venv/bin/activate
                     venv/bin/python -m pip install --upgrade pip
+                    cat requirements.txt
                     venv/bin/python -m pip install -r requirements.txt -v
                     venv/bin/python -m pip list
                 '''
@@ -32,7 +32,6 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''
-                    . venv/bin/activate
                     venv/bin/python -m pytest tests -m parquet_data \
                         --db_host=postgres \
                         --db_port=5432 \
