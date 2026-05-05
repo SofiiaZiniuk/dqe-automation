@@ -5,3 +5,4 @@ pyarrow
 selenium
 pytest==8.4.0
 pytest-html==4.1.1
+psycopg2-binary
