@@ -4,7 +4,7 @@ import pytest
 @pytest.fixture(scope='module')
 def source_data(db_connection):
     source_query = """
-    SELECT * FROM example_table
+    SELECT * FROM users
     """
     return db_connection.get_data_sql(source_query)
 
@@ -12,7 +12,7 @@ def source_data(db_connection):
 @pytest.fixture(scope='module')
 def target_data(parquet_reader):
     target_path = 'parquet_data'
-    target_data = parquet_reader.readagain_parquet(target_path)
+    target_data = parquet_reader.read_parquet(target_path)
     return target_data
 
 
