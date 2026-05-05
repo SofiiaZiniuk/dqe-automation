@@ -1,17 +1,45 @@
-
 import psycopg2
+import pandas as pd
+
 
 class PostgresConnectorContextManager:
-    def __init__(self, db_host: str, db_name: str, ...):
-        # init
+    def __init__(self, db_host, db_port, db_name, db_user, db_password):
+        self.db_host = db_host
+        self.db_port = db_port
+        self.db_name = db_name
+        self.db_user = db_user
+        self.db_password = db_password
+        self.conn = None
 
     def __enter__(self):
-        # create conn
+        try:
+            self.conn = psycopg2.connect(
+                host=self.db_host,
+                port=self.db_port,
+                dbname=self.db_name,
+                user=self.db_user,
+                password=self.db_password
+            )
+            return self
+        except Exception as e:
+            raise Exception(f"Database connection failed: {e}")
 
     def __exit__(self, exc_type, exc_value, exc_tb):
-        # close conn
+        if self.conn:
+            self.conn.close()
 
     def get_data_sql(self, sql):
-        # exec query, result = pandas df
+        if not self.conn:
+            raise Exception("Connection is not established")
 
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute(sql)
+                rows = cursor.fetchall()
+                columns = [desc[0] for desc in cursor.description]
+
+            return pd.DataFrame(rows, columns=columns)
+
+        except Exception as e:
+            raise Exception(f"Query execution failed: {e}")
 

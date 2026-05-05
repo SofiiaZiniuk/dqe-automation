@@ -1,26 +1,18 @@
-"""
-Description: Data Quality checks ...
-Requirement(s): TICKET-1234
-Author(s): Name Surname
-"""
-
 import pytest
 
 
 @pytest.fixture(scope='module')
 def source_data(db_connection):
     source_query = """
-    SELECT ...
+    SELECT * FROM example_table
     """
-    source_data = db_connection.get_data_sql(source_query)
-    return source_data
+    return db_connection.get_data_sql(source_query)
 
 
 @pytest.fixture(scope='module')
 def target_data(parquet_reader):
-    target_path = '/root/path/to/file'
-    target_data = parquet_reader.process(target_path)
-    return target_data
+    target_path = 'data/example.parquet'
+    return parquet_reader.read_parquet(target_path)
 
 
 @pytest.mark.example
