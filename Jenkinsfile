@@ -45,7 +45,7 @@ pipeline {
                 export DB_PORT=5432
                 export DB_NAME=mydatabase
 
-                venv/bin/python -m pytest tests -m parquet_data \
+                venv/bin/python -m pytest test_examples.py -m parquet_data \
                     --html=html_report/report.html
             '''
         }
