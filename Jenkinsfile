@@ -33,7 +33,7 @@ pipeline {
             steps {
                 withCredentials([
                 usernamePassword(
-                credentialsId: 'postgres-creds',
+                credentialsId: 'jenkins-postgres-credentials',
                 usernameVariable: 'DB_USER',
                 passwordVariable: 'DB_PASSWORD'
             )
