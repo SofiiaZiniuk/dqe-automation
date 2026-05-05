@@ -1,5 +1,6 @@
 import pytest
 import os
+from src.connectors.file_system.parquet_reader import ParquetReader
 from src.connectors.postgres.postgres_connector import PostgresConnectorContextManager
 
 
@@ -28,3 +29,8 @@ def db_connection():
         db_password=os.getenv("DB_PASSWORD")
     ) as db:
         yield db
+
+
+@pytest.fixture(scope="session")
+def parquet_reader():
+    return ParquetReader()
