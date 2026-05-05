@@ -4,5 +4,6 @@ def test_debug_tables(db_connection):
         FROM information_schema.tables
         WHERE table_type='BASE TABLE'
     """)
+
     print(df)
     assert not df.empty

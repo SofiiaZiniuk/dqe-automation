@@ -1,6 +1,7 @@
 import pytest
 import os
 from src.connectors.file_system.parquet_reader import ParquetReader
+from src.data_quality.data_quality_validation_library import DataQualityLibrary
 from src.connectors.postgres.postgres_connector import PostgresConnectorContextManager
 
 
@@ -34,3 +35,7 @@ def db_connection():
 @pytest.fixture(scope="session")
 def parquet_reader():
     return ParquetReader()
+
+@pytest.fixture(scope="session")
+def data_quality_library():
+    return DataQualityLibrary
