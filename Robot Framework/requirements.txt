@@ -3,5 +3,5 @@ robotframework-seleniumlibrary
 pandas
 pyarrow
 selenium
-pytest~=8.4.0
-pytest-html~=4.1.1
+pytest==8.4.0
+pytest-html==4.1.1
